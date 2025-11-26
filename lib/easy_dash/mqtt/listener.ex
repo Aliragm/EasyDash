@@ -12,8 +12,29 @@ defmodule EasyDash.Mqtt.Listener do
     {:ok, state}
   end
 
-  def handle_message(topic_levels, payload, state) do
-    Logger.info("Mensagem recebida no tópico [#{topic_levels}]: #{inspect(payload)}")
+  def handle_message(_topic, payload, state) do
+    case Jason.decode(payload) do
+      {:ok, dados} ->
+        attributes = %{
+          "temperatura" => dados["temperatura"],
+          "umidade" => dados["umidade"],
+          "sensor_id" => dados["id"]
+        }
+      case EasyDash.Iot.create_leitura(attributes) do
+        {:ok, leitura} ->
+          Logger.info("Salvo no banco: ID #{leitura.id}")
+          Phoenix.PubSub.broadcast(
+            EasyDash.PubSub,
+            "dashboard:geral",
+            {:nova_leitura, leitura}
+          )
+        {:error, changeset} -> Logger.error("Erro ao salvar: #{inspect(changeset.errors)}")
+      end
+
+      {:error, _} ->
+        Logger.error("JSON inválido recebido: #{inspect(payload)}")
+    end
+
     {:ok, state}
   end
 
