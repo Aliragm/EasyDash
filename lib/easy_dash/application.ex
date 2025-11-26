@@ -17,8 +17,8 @@ defmodule EasyDash.Application do
       # Start to serve requests, typically the last entry
       EasyDashWeb.Endpoint,
       {Tortoise.Connection, [
-        client_id: "easy_dash_backend",
-        server: {Tortoise.Transport.Tcp, host: "broker.hivemq.com", port: 1883},
+        client_id: "easy_dash_" <> Integer.to_string(:rand.uniform(10000)),
+        server: {Tortoise.Transport.Tcp, host: "test.mosquitto.org", port: 1883},
         handler: {EasyDash.Mqtt.Listener, []},
         subscriptions: [{"sensores/#", 0}]
       ]}
