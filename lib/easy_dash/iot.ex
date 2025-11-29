@@ -101,4 +101,13 @@ defmodule EasyDash.Iot do
   def change_leitura(%Leitura{} = leitura, attrs \\ %{}) do
     Leitura.changeset(leitura, attrs)
   end
+
+  def list_leituras_por_sensor(sensor_id) do
+    query = from l in Leitura,
+      where: l.sensor_id == ^sensor_id,
+      order_by: [desc: l.inserted_at],
+      limit: 100  #Aqui talvez tenha que mudar no futuro, talvez isso seja muito pouco
+
+    Repo.all(query)
+  end
 end

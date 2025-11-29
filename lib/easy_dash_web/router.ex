@@ -7,6 +7,8 @@ defmodule EasyDashWeb.Router do
 
   scope "/api", EasyDashWeb do
     pipe_through :api
+
+    resources "/leituras", LeituraController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

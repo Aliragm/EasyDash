@@ -20,7 +20,8 @@ defmodule EasyDashWeb.LeituraJSON do
       id: leitura.id,
       temperatura: leitura.temperatura,
       umidade: leitura.umidade,
-      sensor_id: leitura.sensor_id
+      sensor_id: leitura.sensor_id,
+      data_hora: leitura.inserted_at
     }
   end
 end

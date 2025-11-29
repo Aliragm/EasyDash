@@ -6,6 +6,11 @@ defmodule EasyDashWeb.LeituraController do
 
   action_fallback EasyDashWeb.FallbackController
 
+  def index(conn, %{"sensor_id" => sensor_id}) do
+    leituras = Iot.list_leituras_por_sensor(sensor_id)
+    render(conn, :index, leituras: leituras)
+  end
+
   def index(conn, _params) do
     leituras = Iot.list_leituras()
     render(conn, :index, leituras: leituras)

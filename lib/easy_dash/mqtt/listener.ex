@@ -12,7 +12,8 @@ defmodule EasyDash.Mqtt.Listener do
     {:ok, state}
   end
 
-  def handle_message(_topic, payload, state) do
+  def handle_message(topic, payload, state) do
+    Logger.warning("Chegou no tópico [#{topic}]: #{inspect(payload)}")
     case Jason.decode(payload) do
       {:ok, dados} ->
         attributes = %{
