@@ -102,7 +102,7 @@ defmodule EasyDash.Iot do
     Leitura.changeset(leitura, attrs)
   end
 
-  def list_leituras_por_sensor(sensor_id) do
+  def list_leituras_by_sensor(sensor_id) do
     query = from l in Leitura,
       where: l.sensor_id == ^sensor_id,
       order_by: [desc: l.inserted_at],
@@ -111,7 +111,7 @@ defmodule EasyDash.Iot do
     Repo.all(query)
   end
 
-  def list_sensors_by_users(user_id) do
+  def list_sensors_by_user(user_id) do
     Sensor
     |> where([s], s.user_id == ^user_id)
     |> Repo.all()
@@ -121,5 +121,13 @@ defmodule EasyDash.Iot do
     %Sensor{}
     |> Sensor.changeset(attributes)
     |> Repo.insert()
+  end
+
+  def get_sensor_by_user!(hardware_id, user_id) do
+    Repo.get_by!(Sensor, hardware_id: hardware_id, user_id: user_id)
+  end
+
+  def delete_sensor(%Sensor{} = sensor) do
+    Repo.delete(sensor)
   end
 end

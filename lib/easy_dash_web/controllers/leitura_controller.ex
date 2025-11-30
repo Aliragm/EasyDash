@@ -7,7 +7,9 @@ defmodule EasyDashWeb.LeituraController do
   action_fallback EasyDashWeb.FallbackController
 
   def index(conn, %{"sensor_id" => sensor_id}) do
-    leituras = Iot.list_leituras_por_sensor(sensor_id)
+    user_id = conn.assigns[:current_user_id]
+    _sensor = Iot.get_sensor_by_user!(sensor_id, user_id)
+    leituras = Iot.list_leituras_by_sensor(sensor_id)
     render(conn, :index, leituras: leituras)
   end
 

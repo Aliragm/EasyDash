@@ -13,4 +13,11 @@ defmodule EasyDash.Accounts do
         {:error, :unauthorized}
     end
   end
+
+  def create_user(attributes \\ %{}) do
+    %User{}
+    |> User.changeset(attributes)
+    |> Repo.insert()
+  end
+
 end

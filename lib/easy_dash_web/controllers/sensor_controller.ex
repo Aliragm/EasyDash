@@ -9,7 +9,7 @@ defmodule EasyDashWeb.SensorController do
   def index(conn, _params) do
     user_id = conn.assigns[:current_user_id]
 
-    sensors = Iot.list_sensors_by_users(user_id)
+    sensors = Iot.list_sensors_by_user(user_id)
     render(conn, :index, sensors: sensors)
   end
 
@@ -27,7 +27,7 @@ defmodule EasyDashWeb.SensorController do
 
   def delete(conn, %{"id" => id}) do
     user_id = conn.assigns[:current_user_id]
-    sensor = Iot.get_sensor!(id)
+    sensor = EasyDash.Repo.get_by!(Sensor, id: id, user_id: user_id)
 
     if sensor.user_id == user_id do
       with {:ok, %Sensor{}} <- Iot.delete_sensor(sensor) do
