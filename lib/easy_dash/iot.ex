@@ -5,7 +5,7 @@ defmodule EasyDash.Iot do
 
   import Ecto.Query, warn: false
   alias EasyDash.Repo
-
+  alias EasyDash.Iot.Sensor
   alias EasyDash.Iot.Leitura
 
   @doc """
@@ -109,5 +109,17 @@ defmodule EasyDash.Iot do
       limit: 100  #Aqui talvez tenha que mudar no futuro, talvez isso seja muito pouco
 
     Repo.all(query)
+  end
+
+  def list_sensors_by_users(user_id) do
+    Sensor
+    |> where([s], s.user_id == ^user_id)
+    |> Repo.all()
+  end
+
+  def create_sensor(attributes \\ %{}) do
+    %Sensor{}
+    |> Sensor.changeset(attributes)
+    |> Repo.insert()
   end
 end

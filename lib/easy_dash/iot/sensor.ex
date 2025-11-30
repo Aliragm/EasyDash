@@ -13,8 +13,8 @@ defmodule EasyDash.Iot.Sensor do
   @doc false
   def changeset(sensor, attrs) do
     sensor
-    |> cast(attrs, [:nome, :hardware_id])
-    |> validate_required([:nome, :hardware_id])
+    |> cast(attrs, [:nome, :hardware_id, :user_id])
+    |> validate_required([:nome, :hardware_id, :user_id])
     |> unique_constraint(:hardware_id)
   end
 end

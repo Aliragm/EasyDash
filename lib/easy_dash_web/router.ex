@@ -19,6 +19,7 @@ defmodule EasyDashWeb.Router do
     pipe_through [:api, :auth]
 
     resources "/leituras", LeituraController, except: [:new, :edit]
+    resources "/sensores", SensorController, except: [:new, :edit]
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development
