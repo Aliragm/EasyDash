@@ -16,6 +16,8 @@ services:
   # Serviço da sua API Phoenix
   app:
     build: .
+    env_file:
+      - .env
     ports:
       - "4000:4000"
     depends_on:

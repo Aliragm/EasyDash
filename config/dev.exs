@@ -2,10 +2,10 @@ import Config
 
 # Configure your database
 config :easy_dash, EasyDash.Repo,
-  username: "postgres",
-  password: "postgres",
-  hostname: "db",
-  database: "easy_db",
+  username: System.get_env("DB_USER") || "postgres", #testes
+  password: System.get_env("DB_PASS") || "postgres", #testes
+  hostname: System.get_env("DB_HOST") || "localhost", #testes
+  database: System.get_env("DB_NAME") || "easy_db", #testes
   port: 5432,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
@@ -24,7 +24,7 @@ config :easy_dash, EasyDashWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "vuS53Hv5aqIRbTTNhgUC9PkY5rMsHLtCGDD8Y5bzyLNanvr6uSVnCI/9TsTf4Utu",
+  secret_key_base: System.get_env("SECRET_KEY_BASE") || "vuS53Hv5aqIRbTTNhgUC9PkY5rMsHLtCGDD8Y5bzyLNanvr6uSVnCI/9TsTf4Utu", # chave só pra testar
   watchers: []
 
 # ## SSL Support

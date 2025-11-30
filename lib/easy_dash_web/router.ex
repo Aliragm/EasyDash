@@ -5,8 +5,18 @@ defmodule EasyDashWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug EasyDashWeb.AuthPlug
+  end
+
   scope "/api", EasyDashWeb do
     pipe_through :api
+
+    post "/login", AuthController, :login
+  end
+
+  scope "/api", EasyDashWeb do
+    pipe_through [:api, :auth]
 
     resources "/leituras", LeituraController, except: [:new, :edit]
   end
