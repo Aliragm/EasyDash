@@ -10,7 +10,7 @@ defmodule EasyDashWeb.UserSocket do
   # Uncomment the following line to define a "room:*" topic
   # pointing to the `EasyDashWeb.RoomChannel`:
   #
-  channel "dashboard:*", EasyDashWeb.DashboardChannel
+  channel "sensor:*", EasyDashWeb.DashboardChannel
   #
   # To create a channel file, use the mix task:
   #
@@ -35,10 +35,16 @@ defmodule EasyDashWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  def connect(%{"token" => token}, socket, _connect_info) do
+    case Phoenix.Token.verify(socket, "d@n13l", token, max_age: 900_000) do
+      {:ok, user_id} ->
+        {:ok, assign(socket, :user_id, user_id)}
+      {:error, _reason} ->
+        :error
+    end
   end
 
+  def connect(_params, _socket, _), do: :error
   # Socket IDs are topics that allow you to identify all sockets for a given user:
   #
   #     def id(socket), do: "user_socket:#{socket.assigns.user_id}"

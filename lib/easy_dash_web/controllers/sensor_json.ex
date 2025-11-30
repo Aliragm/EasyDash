@@ -12,7 +12,7 @@ defmodule EasyDashWeb.SensorJSON do
   defp data(%Sensor{} = sensor) do
     %{
       id: sensor.id,
-      name: sensor.name,
+      nome: sensor.nome,
       hardware_id: sensor.hardware_id,
       user_id: sensor.user_id
     }
