@@ -85,6 +85,7 @@ Authorization: Bearer SEU_TOKEN_AQUI
 
 | Método | Rota | Descrição | Body |
 |--------|------|-----------|------|
+| POST | `/api/register` | Cadastra user | `{ "user": {"email": "email@email.com", "password": "senhasecreta"}}` |
 | POST | `/api/login` | Gera o Token de Acesso | `{ "email": "...", "password": "..." }` |
 
 ### 2. Gestão de Sensores (Requer autenticação)
