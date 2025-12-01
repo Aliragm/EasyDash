@@ -20,7 +20,7 @@ defmodule EasyDash.Application do
         client_id: "easy_dash_" <> Integer.to_string(:rand.uniform(10000)),
         server: {Tortoise.Transport.Tcp, host: "test.mosquitto.org", port: 1883},
         handler: {EasyDash.Mqtt.Listener, []},
-        subscriptions: [{"sensores/#", 0}]
+        subscriptions: [{"sensores/leitura", 0}]
       ]}
     ]
 
