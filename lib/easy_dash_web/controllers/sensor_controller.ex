@@ -29,14 +29,8 @@ defmodule EasyDashWeb.SensorController do
     user_id = conn.assigns[:current_user_id]
     sensor = EasyDash.Repo.get_by!(Sensor, id: id, user_id: user_id)
 
-    if sensor.user_id == user_id do
-      with {:ok, %Sensor{}} <- Iot.delete_sensor(sensor) do
-        send_resp(conn, :no_content, "")
-      end
-    else
-      conn
-      |> put_status(:forbidden)
-      |> json(%{error: "Sensor não pertence ao usuário"})
+    with {:ok, %Sensor{}}<- Iot.delete_sensor(sensor) do
+      send_resp(conn, :no_content, "")
     end
   end
 end
