@@ -1,0 +1,7 @@
+_build
+deps
+.git
+.elixir_ls
+.vscode
+test/
+crash.dump
