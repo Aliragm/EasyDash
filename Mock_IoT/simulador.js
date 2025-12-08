@@ -1,17 +1,15 @@
 import mqtt from 'mqtt';
 
-// Configurações
 const BROKER_URL = 'mqtt://test.mosquitto.org';
 const TOPIC = 'sensores/leitura';
 const SENSOR_ID = 'sensor_sala_01';
 
-// Conecta no Broker
-console.log(`🔌 Conectando ao broker ${BROKER_URL}...`);
+console.log(`Conectando ao broker ${BROKER_URL}...`);
 const client = mqtt.connect(BROKER_URL);
 
 client.on('connect', () => {
-  console.log('✅ Conectado! Iniciando envio de dados...');
-  console.log(`📡 Tópico: ${TOPIC} | ID: ${SENSOR_ID}`);
+  console.log('Conectado! Iniciando envio de dados...');
+  console.log(`Tópico: ${TOPIC} | ID: ${SENSOR_ID}`);
   console.log('------------------------------------------------');
 
   let tick = 0;
@@ -33,11 +31,11 @@ client.on('connect', () => {
 
     client.publish(TOPIC, payload);
     
-    console.log(`📤 [${new Date().toLocaleTimeString()}] Temp: ${temp}°C | Umid: ${umid}%`);
+    console.log(`[${new Date().toLocaleTimeString()}] Temp: ${temp}°C | Umid: ${umid}%`);
 
   }, 30000);
 });
 
 client.on('error', (err) => {
-  console.error('❌ Erro de conexão:', err);
+  console.error('Erro de conexão:', err);
 });
