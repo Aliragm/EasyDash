@@ -1,0 +1,46 @@
+services:
+  # Serviço do Banco de Dados
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: easy_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Serviço da API Phoenix
+  app:
+    build: 
+      context: ./Backend
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db 
+    volumes:
+      - ./Backend:/app
+      - /app/deps
+      - /app/_build
+    environment:
+      DB_HOSTNAME: db
+      DB_PASSWORD: postgres
+
+    #Serviço do React
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./Frontend:/app           # Monta seu código (Hot Reload funciona)
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:4000/api
+volumes:
+  postgres_data:

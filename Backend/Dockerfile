@@ -16,8 +16,7 @@ COPY mix.exs mix.lock ./
 
 # Baixa as dependências e compila
 RUN mix deps.get
-RUN mix do compile
-
+RUN mix do deps.compile, compile
 # Copia o resto do código para dentro do container
 COPY . .
 
