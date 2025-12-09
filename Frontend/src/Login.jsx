@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
 
 const Login = ({ onLogin }) => {
-  const [isRegistering, setIsRegistering] = useState(false); // <--- Novo Estado
+  const [isRegistering, setIsRegistering] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const API_URL = import.meta.env.VITE_API_URL || "http://localhost:4000/api";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
-    // Decide a rota e o corpo da requisição baseado no modo (Login ou Registro)
     const endpoint = isRegistering ? '/register' : '/login';
     
-    // O backend espera { "user": { ... } } no registro, mas só { ... } no login
-    // Vamos padronizar ou ajustar conforme seu controller
     let bodyPayload;
     if (isRegistering) {
         bodyPayload = { user: { email, password } };
@@ -25,7 +24,8 @@ const Login = ({ onLogin }) => {
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/api${endpoint}`, {
+      // --- USO DA VARIÁVEL AQUI ---
+      const res = await fetch(`${API_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(bodyPayload)
@@ -36,18 +36,17 @@ const Login = ({ onLogin }) => {
       if (res.ok) {
         if (isRegistering) {
             setSuccess('Conta criada! Faça login agora.');
-            setIsRegistering(false); // Volta para tela de login
-            setPassword(''); // Limpa a senha por segurança
+            setIsRegistering(false);
+            setPassword('');
         } else {
-            // É Login
             onLogin(data.token, data.user_id);
         }
       } else {
-        // Tenta pegar erro de validação (changeset) ou erro simples
         const msg = data.error || (data.errors ? JSON.stringify(data.errors) : 'Erro na requisição');
         setError(msg);
       }
     } catch (err) {
+      console.error(err); // Bom logar o erro pra debug
       setError('Erro de conexão com o servidor');
     }
   };
