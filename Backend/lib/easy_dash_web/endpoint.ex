@@ -1,14 +1,18 @@
 defmodule EasyDashWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :easy_dash
 
-  # --- A SOLUÇÃO "BALA DE PRATA" ---
-  # O CORS deve ser o primeiro porteiro, antes de qualquer outra coisa.
+  # CORS - DEVE SER O PRIMEIRO PLUG
   plug CORSPlug,
-    origin: ["*"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-  # ---------------------------------
+    origin: [
+      "https://perpetual-prosperity-production.up.railway.app",
+      ~r/^https?:\/\/localhost(:\d+)?$/
+    ],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    headers: ["Authorization", "Content-Type", "Accept", "Origin", "User-Agent", "DNT", "Cache-Control", "X-Mx-ReqToken", "Keep-Alive", "X-Requested-With", "If-Modified-Since", "X-CSRF-Token"],
+    expose: ["Content-Length", "Content-Range"],
+    max_age: 86400,
+    credentials: true
 
-  # Definição das opções de sessão (movi para cima para organizar)
   @session_options [
     store: :cookie,
     key: "_easy_dash_key",
@@ -24,15 +28,12 @@ defmodule EasyDashWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
-  # Serve at "/" the static files from "priv/static" directory.
   plug Plug.Static,
     at: "/",
     from: :easy_dash,
-    gzip: not code_reloading?,
+    gzip: false,
     only: EasyDashWeb.static_paths()
 
-  # Code reloading can be explicitly enabled under the
-  # :code_reloader configuration of your endpoint.
   if code_reloading? do
     plug Phoenix.CodeReloader
     plug Phoenix.Ecto.CheckRepoStatus, otp_app: :easy_dash
