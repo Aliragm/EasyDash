@@ -10,12 +10,11 @@ defmodule EasyDash.Application do
     children = [
       EasyDashWeb.Telemetry,
       EasyDash.Repo,
+      EasyDashWeb.Endpoint,
       {DNSCluster, query: Application.get_env(:easy_dash, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: EasyDash.PubSub},
       # Start a worker by calling: EasyDash.Worker.start_link(arg)
       # {EasyDash.Worker, arg},
-      # Start to serve requests, typically the last entry
-      EasyDashWeb.Endpoint,
       {Tortoise.Connection, [
         client_id: "easy_dash_" <> Integer.to_string(:rand.uniform(10000)),
         server: {Tortoise.Transport.Tcp, host: "test.mosquitto.org", port: 1883},
