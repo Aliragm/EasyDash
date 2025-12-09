@@ -11,5 +11,9 @@ export default defineConfig({
     host: true,
     strictPort: true,
     port: process.env.PORT ? parseInt(process.env.PORT) : 5173,
+    allowedHosts: [
+      'perpetual-prosperity-production.up.railway.app', 
+      '.railway.app' 
+    ],
   }
 })
