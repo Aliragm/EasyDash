@@ -52,6 +52,8 @@ defmodule EasyDashWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug CORSPlug, origin: ["*"] #para apresentação
+  plug CORSPlug, #para apresentação
+    origin: ["*"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
   plug EasyDashWeb.Router
 end
