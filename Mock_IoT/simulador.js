@@ -33,7 +33,7 @@ client.on('connect', () => {
     
     console.log(`[${new Date().toLocaleTimeString()}] Temp: ${temp}°C | Umid: ${umid}%`);
 
-  }, 30000);
+  }, 3000);
 });
 
 client.on('error', (err) => {
